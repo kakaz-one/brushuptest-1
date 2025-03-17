@@ -13,6 +13,7 @@ datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL") // 必要に応じて追加
 }
         
 
@@ -21,4 +22,28 @@ model Post {
   title     String   
   description String
   date  DateTime @default(now())
+}
+
+model EmployeeInfo {
+  id          Int      @id @default(autoincrement())
+  name        String
+  password    String
+
+  @@map("employee_info")
+}
+
+model TimeRecord {
+  id           Int      @id @default(autoincrement())
+  employee_id  Int      // SQLのカラム名と一致させる
+  record_type  String   // SQLのカラム名と一致させる
+  record_time  DateTime // SQLのカラム名と一致させる
+
+  @@map("time_records")
+}
+
+model AdminPassword {
+  id       Int    @id @default(autoincrement())
+  password String
+
+  @@map("admin_passwords")
 }
