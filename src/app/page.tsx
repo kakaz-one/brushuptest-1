@@ -11,7 +11,7 @@ export default function Page() {
             管理者
           </button>
         </Link>
-        <Link href="/admin_employee_select">
+        <Link href="/auth/employee/login">
           <button className={styles.button}>
             従業員選択
           </button>
