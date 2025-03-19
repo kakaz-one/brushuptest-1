@@ -34,9 +34,9 @@ model EmployeeInfo {
 
 model TimeRecord {
   id           Int      @id @default(autoincrement())
-  employee_id  Int      // SQLのカラム名と一致させる
-  record_type  String   // SQLのカラム名と一致させる
-  record_time  DateTime // SQLのカラム名と一致させる
+  employee_id  Int      // 従業員ID
+  record_type  String   // 「出勤」「退勤」「休憩開始」「休憩終了」
+  record_time  DateTime // 打刻時間
 
   @@map("time_records")
 }
