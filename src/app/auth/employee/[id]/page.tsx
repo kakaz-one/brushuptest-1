@@ -9,16 +9,20 @@ export default function EmployeePage({ params }: { params: Promise<{ id: string 
   const { id } = use(params);
 
   useEffect(() => {
-    // ここで従業員情報を取得するためのAPI呼び出しを行うことができます
+    // ここで従業員情報を取得するためのAPI呼び出しを行う
     // 例: fetch(`/api/employee/${id}`)
   }, [id]);
 
   return (
-    <div >
-      <div >
-        <h2 >従業員ページ</h2>
+    <div>
+      <div>
+        <h2>従業員ページ</h2>
         <p>従業員ID: {id}</p>
         {/* 他の従業員情報をここに表示 */}
+        <div>
+          <button onClick={() => router.push(`/auth/employee/${id}/attendance`)}>勤怠管理</button>
+          <button onClick={() => router.push(`/auth/employee/${id}/sharing`)}>情報共有</button>
+        </div>
       </div>
     </div>
   );
