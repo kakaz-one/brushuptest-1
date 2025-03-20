@@ -7,6 +7,7 @@ export default function AttendancePage({ params }: { params: Promise<{ id: strin
   const [name, setName] = useState('');
   const [recordType, setRecordType] = useState('出勤');
   const [recordDate, setRecordDate] = useState(new Date().toISOString().split('T')[0]); // 現在の日付を初期値に設定
+  const [recordTime, setRecordTime] = useState(new Date().toLocaleTimeString('it-IT').slice(0, 5)); // 現在の時刻を初期値に設定
   const [message, setMessage] = useState('');
 
   useEffect(() => {
@@ -24,7 +25,7 @@ export default function AttendancePage({ params }: { params: Promise<{ id: strin
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ recordType, recordDate }),
+        body: JSON.stringify({ recordType, recordDate, recordTime }),
       });
 
       const data = await response.json();
@@ -62,6 +63,15 @@ export default function AttendancePage({ params }: { params: Promise<{ id: strin
           id="recordDate"
           value={recordDate}
           onChange={(e) => setRecordDate(e.target.value)}
+        />
+      </div>
+      <div>
+        <label htmlFor="recordTime">打刻時刻:</label>
+        <input
+          type="time"
+          id="recordTime"
+          value={recordTime}
+          onChange={(e) => setRecordTime(e.target.value)}
         />
       </div>
       <button onClick={handleClockIn}>打刻</button>

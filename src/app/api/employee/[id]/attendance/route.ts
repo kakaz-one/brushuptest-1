@@ -6,13 +6,18 @@ const prisma = new PrismaClient();
 export async function POST(req: Request, { params }: { params: { id: string } }) {
   try {
     await prisma.$connect();
-    const { recordType, recordDate } = await req.json();
+    const { recordType, recordDate, recordTime } = await req.json();
+
+    // クライアントから送信された日付と時刻をUTCとして解釈
+    const [year, month, day] = recordDate.split('-').map(Number);
+    const [hours, minutes] = recordTime.split(':').map(Number);
+    const recordDateTime = new Date(Date.UTC(year, month - 1, day, hours, minutes));
 
     const newRecord = await prisma.timeRecord.create({
       data: {
         employee_id: parseInt(params.id),
         record_type: recordType,
-        record_time: new Date(recordDate),
+        record_time: recordDateTime,
       },
     });
 
