@@ -3,10 +3,13 @@ import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
-export async function POST(req: Request, { params }: { params: { id: string } }) {
+export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     await prisma.$connect();
     const { recordType, recordDate, recordTime } = await req.json();
+    
+    // paramsをawaitして値を取得
+    const resolvedParams = await params;
 
     // クライアントから送信された日付と時刻をUTCとして解釈
     const [year, month, day] = recordDate.split('-').map(Number);
@@ -15,7 +18,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
 
     const newRecord = await prisma.timeRecord.create({
       data: {
-        employee_id: parseInt(params.id),
+        employee_id: parseInt(resolvedParams.id),
         record_type: recordType,
         record_time: recordDateTime,
       },

@@ -11,13 +11,13 @@ export async function main() {
   }
 }
 
-
-export async function GET(req: Request, { params }: { params: { id: string } }) {
+export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     await main();
+    const resolvedParams = await params;
     const employee = await prisma.employeeInfo.findUnique({
       where: {
-        id: parseInt(params.id),
+        id: parseInt(resolvedParams.id),
       },
     });
 
